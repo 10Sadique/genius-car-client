@@ -8,6 +8,12 @@ const Header = () => {
             <li>
                 <Link to={`/`}>Home</Link>
             </li>
+            <li>
+                <Link to={`/signin`}>Sign In</Link>
+            </li>
+            <li>
+                <Link to={`/signup`}>Sign Up</Link>
+            </li>
         </>
     );
 
@@ -43,7 +49,7 @@ const Header = () => {
                 </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal p-0 font-semibold">
+                <ul className="flex items-center gap-7 font-semibold">
                     {menuItems}
                 </ul>
             </div>
