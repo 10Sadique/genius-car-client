@@ -48,7 +48,7 @@ const Banner = () => {
     ];
 
     return (
-        <div className="carousel w-full rounded-3xl overflow-hidden">
+        <div className="carousel w-full rounded-3xl overflow-hidden mb-10">
             {bannerData.map((slide) => (
                 <BannerItem key={slide.id} slide={slide} />
             ))}
