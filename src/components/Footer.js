@@ -3,11 +3,11 @@ import logo from '../assets/logo.svg';
 
 const Footer = () => {
     return (
-        <footer className="footer p-32 bg-black text-gray-200">
+        <footer className="p-32 text-gray-200 bg-black footer">
             <div>
                 <img src={logo} alt="" />
                 <p>
-                    ACME Industries Ltd.
+                    Genius Car Ltd.
                     <br />
                     Providing reliable tech since 1992
                 </p>
