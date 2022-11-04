@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import image from '../assets/images/login/login.svg';
+import { AuthContext } from '../contexts/AuthProvider';
 
 const SignUp = () => {
+    const { updateUser, createUser, setUser } = useContext(AuthContext);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -10,8 +13,19 @@ const SignUp = () => {
         const name = e.target.name.value;
         const image = e.target.image.value;
 
-        console.log(email, password, name, image);
-        e.target.reset();
+        // console.log(email, password, name, image);
+
+        createUser(email, password)
+            .then((result) => {
+                const user = result.user;
+                updateUser(name, image)
+                    .then(() => console.log('Profile Updated'))
+                    .catch((err) => console.error(err));
+                console.log(user);
+                setUser(user);
+                e.target.reset();
+            })
+            .catch((err) => console.error(err));
     };
 
     return (

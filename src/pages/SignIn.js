@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import image from '../assets/images/login/login.svg';
+import { AuthContext } from '../contexts/AuthProvider';
 
 const SignIn = () => {
+    const { signIn, setUser } = useContext(AuthContext);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const email = e.target.email.value;
         const password = e.target.password.value;
 
-        console.log(email, password);
-        e.target.reset();
+        // console.log(email, password);
+
+        signIn(email, password)
+            .then((result) => {
+                const user = result.user;
+                setUser(user);
+                console.log('Signed In');
+                console.log(user);
+                e.target.reset();
+            })
+            .catch((err) => console.error(err));
     };
 
     return (
