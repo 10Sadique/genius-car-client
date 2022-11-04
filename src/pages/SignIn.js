@@ -40,7 +40,7 @@ const SignIn = () => {
                     .then((data) => {
                         // console.log(data);
                         // local storage is easiest but not best place to store jwt token
-                        localStorage.setItem('geniusToke', data.token);
+                        localStorage.setItem('geniusToken', data.token);
                     });
 
                 navigate(to, { replace: true });

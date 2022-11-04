@@ -3,17 +3,34 @@ import TableRow from '../components/TableRow';
 import { AuthContext } from '../contexts/AuthProvider';
 
 const Orders = () => {
-    const { user } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         fetch(
-            `https://genius-car-server-beta.vercel.app/orders?email=${user?.email}`
+            `https://genius-car-server-beta.vercel.app/orders?email=${user?.email}`,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem(
+                        'geniusToken'
+                    )}`,
+                },
+            }
         )
-            .then((res) => res.json())
+            .then((res) => {
+                if (res.status === 401 || res.status === 403) {
+                    logOut()
+                        .then(() => {
+                            console.log(res.status);
+                            localStorage.removeItem('geniusToken');
+                        })
+                        .catch((err) => console.error(err));
+                }
+                return res.json();
+            })
             .then((data) => setOrders(data))
             .catch((err) => console.error(err));
-    }, [user?.email]);
+    }, [user?.email, logOut]);
 
     const handleDelete = (id) => {
         const proceed = window.confirm(
@@ -23,6 +40,11 @@ const Orders = () => {
         if (proceed) {
             fetch(`https://genius-car-server-beta.vercel.app/orders/${id}`, {
                 method: 'DELETE',
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem(
+                        'geniusToken'
+                    )}`,
+                },
             })
                 .then((res) => res.json())
                 .then((data) => {
@@ -44,6 +66,7 @@ const Orders = () => {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('geniusToken')}`,
             },
             body: JSON.stringify({ status: 'Approved' }),
         })
@@ -63,11 +86,11 @@ const Orders = () => {
 
     return (
         <div>
-            <h1 className="text-4xl font-bold text-orange-500 text-center">
+            <h1 className="text-4xl font-bold text-center text-orange-500">
                 You have {orders.length} orders
             </h1>
             <div className="mt-8" />
-            <div className="overflow-x-auto w-full border rounded-xl">
+            <div className="w-full overflow-x-auto border rounded-xl">
                 <table className="table w-full">
                     {/* <!-- head --> */}
                     <thead>
