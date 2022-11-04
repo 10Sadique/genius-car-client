@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import image from '../assets/images/login/login.svg';
 import { AuthContext } from '../contexts/AuthProvider';
 
 const SignUp = () => {
     const { updateUser, createUser, setUser } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const to = location.state?.from?.pathname || '/';
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,23 +27,24 @@ const SignUp = () => {
                     .catch((err) => console.error(err));
                 console.log(user);
                 setUser(user);
+                navigate(to, { replace: true });
                 e.target.reset();
             })
             .catch((err) => console.error(err));
     };
 
     return (
-        <div className="mb-14 flex items-center flex-col lg:flex-row">
-            <div className="w-1/2 flex items-center justify-center">
+        <div className="flex flex-col items-center mb-14 lg:flex-row">
+            <div className="flex items-center justify-center w-1/2">
                 <img className="w-[60%] " src={image} alt="" />
             </div>
             <div className="w-1/2">
                 <h1 className="font-bold text-3xl text-center mb-10 text-[#FF3811]">
                     Sign Up
                 </h1>
-                <div className="card flex-shrink-0 w-full max-w-sm shadow-lg border bg-base-100 mx-auto">
+                <div className="flex-shrink-0 w-full max-w-sm mx-auto border shadow-lg card bg-base-100">
                     <form onSubmit={handleSubmit} className="card-body">
-                        <div className="form-control font-semibold">
+                        <div className="font-semibold form-control">
                             <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
@@ -51,7 +56,7 @@ const SignUp = () => {
                                 required
                             />
                         </div>
-                        <div className="form-control font-semibold">
+                        <div className="font-semibold form-control">
                             <label className="label">
                                 <span className="label-text">Image URL</span>
                             </label>
@@ -63,7 +68,7 @@ const SignUp = () => {
                                 required
                             />
                         </div>
-                        <div className="form-control font-semibold">
+                        <div className="font-semibold form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
@@ -75,7 +80,7 @@ const SignUp = () => {
                                 required
                             />
                         </div>
-                        <div className="form-control font-semibold">
+                        <div className="font-semibold form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
@@ -87,7 +92,7 @@ const SignUp = () => {
                                 required
                             />
                         </div>
-                        <div className="form-control mt-6">
+                        <div className="mt-6 form-control">
                             <button
                                 type="submit"
                                 className="btn bg-[#FF3811] hover:bg-[#FF3811] border-0 hover:border-0 capitalize"

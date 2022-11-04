@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Orders from '../pages/Orders';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import PrivateRoute from './PrivateRoute';
 
 export const router = createBrowserRouter([
     {
@@ -16,14 +17,25 @@ export const router = createBrowserRouter([
             { path: '/signup', element: <SignUp /> },
             {
                 path: '/checkout/:id',
-                element: <CheckOut />,
+                element: (
+                    <PrivateRoute>
+                        <CheckOut />
+                    </PrivateRoute>
+                ),
                 loader: ({ params }) => {
                     return fetch(
                         `https://genius-car-server-beta.vercel.app/services/${params.id}`
                     );
                 },
             },
-            { path: '/orders', element: <Orders /> },
+            {
+                path: '/orders',
+                element: (
+                    <PrivateRoute>
+                        <Orders />
+                    </PrivateRoute>
+                ),
+            },
         ],
     },
 ]);

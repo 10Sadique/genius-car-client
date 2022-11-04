@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthProvider';
 
 const CheckOut = () => {
@@ -7,6 +7,7 @@ const CheckOut = () => {
     const { user } = useContext(AuthContext);
 
     const { title, price, _id, service_id } = service;
+    const navigate = useNavigate();
 
     const handleCheckout = (e) => {
         e.preventDefault();
@@ -43,6 +44,7 @@ const CheckOut = () => {
             .then((data) => {
                 console.log(data);
                 if (data.acknowledged) form.reset();
+                navigate('/orders');
             })
             .catch((err) => console.error(err));
     };
@@ -51,7 +53,7 @@ const CheckOut = () => {
         <div>
             <form
                 onSubmit={handleCheckout}
-                className="bg-gray-100 rounded-lg shadow-lg p-10 max-w-4xl mx-auto"
+                className="max-w-4xl p-10 mx-auto bg-gray-100 rounded-lg shadow-lg"
             >
                 <h1 className="text-4xl font-bold text-gray-800">{title}</h1>
                 <div className="mt-5" />
@@ -59,32 +61,32 @@ const CheckOut = () => {
                     Price: ${price}
                 </h1>
                 <div className="mt-5" />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <input
                         required
                         name="firstName"
                         type="text"
                         placeholder="Firat Name"
-                        className="input input-bordered w-full"
+                        className="w-full input input-bordered"
                     />
                     <input
                         name="lastName"
                         type="text"
                         placeholder="Last Name"
-                        className="input input-bordered w-full"
+                        className="w-full input input-bordered"
                     />
                     <input
                         required
                         name="phone"
                         type="text"
                         placeholder="Your Phone"
-                        className="input input-bordered w-full"
+                        className="w-full input input-bordered"
                     />
                     <input
                         name="email"
                         type="text"
                         placeholder="Email"
-                        className="input input-bordered w-full"
+                        className="w-full input input-bordered"
                         readOnly
                         defaultValue={user.email}
                     />
@@ -92,12 +94,12 @@ const CheckOut = () => {
                 <div className="mt-5" />
                 <textarea
                     name="message"
-                    className="textarea textarea-bordered w-full"
+                    className="w-full textarea textarea-bordered"
                     placeholder="Your Message"
                 ></textarea>
                 <div className="mt-5" />
                 <button
-                    className="py-2 px-5 bg-orange-600 text-white font-semibold rounded-md shadow-md shadow-orange-600"
+                    className="px-5 py-2 font-semibold text-white bg-orange-600 rounded-md shadow-md shadow-orange-600"
                     type="submit"
                 >
                     Proceed Checkout
